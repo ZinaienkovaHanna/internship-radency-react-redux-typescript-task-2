@@ -1,49 +1,51 @@
+export declare const styles: {
+    modal: string;
+};
+
 export interface NoteType {
     id: string;
-    name: string;
-    created: Date;
-    category: string;
-    content: string;
-    dates: Date | string;
-    archived?: boolean;
-}
-
-export interface NoteListType {
     name: string;
     created: string;
     category: string;
     content: string;
-    dates: Date | string;
-    archived?: boolean;
+    dates: string;
+    archived: boolean;
 }
 
 export interface NoteStateType {
-    notes: NoteType[];
-    loading: boolean;
-    error: null | string;
+    notes: any[];
 }
 
 export enum NoteActionTypes {
-    FETCH_NOTES = 'FETCH_NOTES',
-    FETCH_NOTES_SUCCESS = 'FETCH_NOTES_SUCCES',
-    FETCH_NOTES_ERROR = 'FETCH_NOTES_ERROR',
+    ADD_NOTE = 'ADD_NOTE',
+    TOGGLE_NOTE = 'TOGGLE_NOTE',
+    DELETE_NOTE = 'DELETE_NOTE',
 }
 
-interface FetchNotesAction {
-    type: NoteActionTypes.FETCH_NOTES;
+interface AddNoteAction {
+    type: NoteActionTypes.ADD_NOTE;
+    payload: NoteType[];
 }
 
-interface FetchNotesSuccessAction {
-    type: NoteActionTypes.FETCH_NOTES_SUCCESS;
-    payload: any[];
+interface ToggleNoteAction {
+    type: NoteActionTypes.TOGGLE_NOTE;
+    id: string;
+    archived: boolean;
 }
 
-interface FetchNotesErrorAction {
-    type: NoteActionTypes.FETCH_NOTES_ERROR;
+interface DeleteNoteAction {
+    type: NoteActionTypes.DELETE_NOTE;
     payload: string;
 }
 
-export type NoteAction =
-    | FetchNotesAction
-    | FetchNotesSuccessAction
-    | FetchNotesErrorAction;
+export type NoteAction = AddNoteAction | ToggleNoteAction | DeleteNoteAction;
+
+export interface FormData {
+    name: string;
+    category: string;
+    content: string;
+}
+
+export interface ModalProps {
+    onClose: () => void;
+}

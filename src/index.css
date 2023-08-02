@@ -3,8 +3,19 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+    --bg-header: #393a4b;
+    --bg-note: #e3e4f1;
+    --text-note: #494c6b;
+    --text-header: #fafafa;
+    --button-hover: #3a7cfd;
+    --error: red;
+    --bg-modal: rgba(0, 0, 0, 0.5);
 }

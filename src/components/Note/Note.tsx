@@ -8,18 +8,34 @@ import {
     FaTrashAlt,
     FaComment,
 } from 'react-icons/fa';
-
+import { useDispatch } from 'react-redux';
+import {
+    deleteNoteAction,
+    toggleNoteAction,
+} from '../../store/action-creators/noteActions';
 import { NoteType } from '../../types/notesTypes';
 
+import './Note.css';
+
 const Note: React.FC<{ note: NoteType }> = ({ note }) => {
+    const dispatch = useDispatch();
+
+    const deleteNoteHandler = (id: string) => {
+        dispatch(deleteNoteAction(id));
+    };
+
+    const toggleNoteHandler = (id: string, archived: boolean) => {
+        dispatch(toggleNoteAction(id, archived));
+    };
+
     const getIconByCategory = (category: string) => {
         switch (category) {
             case 'Task':
                 return <BiTask />;
             case 'Idea':
-                return <FaComment />;
-            case 'Random Thought':
                 return <FaLightbulb />;
+            case 'Random Thought':
+                return <FaComment />;
             case 'Quote':
                 return <FaQuoteRight />;
             default:
@@ -28,18 +44,27 @@ const Note: React.FC<{ note: NoteType }> = ({ note }) => {
     };
 
     return (
-        <tr key={note.id}>
+        <tr key={note.id} className={note.archived ? 'isArchived' : ''}>
             <td>
-                {getIconByCategory(note.category)} {note.name}
+                <div className="circle-icon">
+                    {getIconByCategory(note.category)}
+                </div>
             </td>
+            <td>{note.name}</td>
             <td>{note.created.toLocaleString()}</td>
             <td>{note.category}</td>
             <td>{note.content}</td>
             <td>{note.dates.toLocaleString()}</td>
             <td>
-                <BsPencil />
-                <FaArchive />
-                <FaTrashAlt />
+                <BsPencil className="edit-icon" />
+                <FaArchive
+                    className="archive-icon"
+                    onClick={() => toggleNoteHandler(note.id, note.archived)}
+                />
+                <FaTrashAlt
+                    onClick={() => deleteNoteHandler(note.id)}
+                    className="delete-icon"
+                />
             </td>
         </tr>
     );

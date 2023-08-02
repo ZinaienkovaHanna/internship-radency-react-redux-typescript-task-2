@@ -1,3 +1,4 @@
+// src/reducers/notesReducer.ts
 import notesData from '../../data/notes';
 import {
     NoteStateType,
@@ -7,29 +8,28 @@ import {
 
 const initialState: NoteStateType = {
     notes: notesData,
-    loading: false,
-    error: null,
 };
 
 const notesReducer = (state = initialState, action: NoteAction) => {
     switch (action.type) {
-        case NoteActionTypes.FETCH_NOTES:
+        case NoteActionTypes.ADD_NOTE:
             return {
-                loading: true,
-                error: null,
-                notes: [],
+                ...state,
+                notes: [...state.notes, action.payload],
             };
-        case NoteActionTypes.FETCH_NOTES_SUCCESS:
+        case NoteActionTypes.TOGGLE_NOTE:
             return {
-                loading: false,
-                error: null,
-                notes: action.payload,
+                ...state,
+                notes: state.notes.map((note) =>
+                    note.id === action.id
+                        ? { ...note, archived: !action.archived }
+                        : note
+                ),
             };
-        case NoteActionTypes.FETCH_NOTES_ERROR:
+        case NoteActionTypes.DELETE_NOTE:
             return {
-                loading: false,
-                error: action.payload,
-                notes: [],
+                ...state,
+                notes: state.notes.filter((note) => note.id !== action.payload),
             };
         default:
             return state;
