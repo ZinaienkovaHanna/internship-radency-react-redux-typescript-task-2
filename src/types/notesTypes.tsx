@@ -70,3 +70,7 @@ export interface PropsNote {
     note: NoteType;
     onOpen: (id: string) => void;
 }
+
+export interface PropsNoteManagementButtons {
+    onOpen: () => void;
+}

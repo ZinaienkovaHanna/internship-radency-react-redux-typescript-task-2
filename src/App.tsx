@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import NoteList from './components/NoteList/NoteList';
 import NoteModal from './components/NoteModal/NoteModal';
+import NoteManagementButtons from './components/NoteManagementButtons/NoteManagementButtons';
 import './App.css';
 
 const App: React.FC = () => {
@@ -27,7 +28,8 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <NoteList onOpen={openModalForEdit} />
-            <button onClick={openModalForCreate}>Create Note</button>
+            <NoteManagementButtons onOpen={openModalForCreate} />
+            {/* <button onClick={openModalForCreate}>Create Note</button> */}
             {isModalOpen && (
                 <NoteModal onClose={closeModal} editingId={noteIdForEditing} />
             )}

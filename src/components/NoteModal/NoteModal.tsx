@@ -13,12 +13,13 @@ import './NoteModal.css';
 const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
     const dispatch = useDispatch();
     const { notes } = useTypedSelector((state) => state.notes);
-
     const [formData, setFormData] = useState<FormData>({
         name: '',
         category: 'Task',
         content: '',
     });
+    const [isNameEmpty, setIsNameEmpty] = useState<boolean>(false);
+    const [isContentEmpty, setIsContentEmpty] = useState<boolean>(false);
 
     function extractDatesFromContent(content: string) {
         const regex =
@@ -26,49 +27,6 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
         const datesArray = content.match(regex);
         return datesArray ? datesArray.join(', ') : '';
     }
-
-    const saveNoteHandler = (
-        name: string,
-        category: string,
-        content: string
-    ) => {
-        if (editingId) {
-            const editedNote: NoteType = {
-                id: editingId,
-                name: formData.name,
-                created: new Date().toLocaleDateString(),
-                category: formData.category,
-                content: formData.content,
-                dates: extractDatesFromContent(formData.content),
-                archived: false,
-            };
-            dispatch(editNoteAction(editedNote, editingId));
-        } else {
-            const newNote: NoteType = {
-                id: uuidv4(),
-                name: formData.name,
-                created: new Date().toLocaleDateString(),
-                category: formData.category,
-                content: formData.content,
-                dates: extractDatesFromContent(formData.content),
-                archived: false,
-            };
-            dispatch(addNoteAction(newNote));
-        }
-        onClose();
-    };
-
-    const formChangeHandler = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-    };
 
     useEffect(() => {
         if (editingId) {
@@ -89,6 +47,64 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
         }
     }, [editingId, notes]);
 
+    const saveNoteHandler = (
+        name: string,
+        category: string,
+        content: string
+    ) => {
+        if (name.trim() && content.trim()) {
+            if (editingId) {
+                const editedNote: NoteType = {
+                    id: editingId,
+                    name: formData.name,
+                    created: new Date().toLocaleDateString(),
+                    category: formData.category,
+                    content: formData.content,
+                    dates: extractDatesFromContent(formData.content),
+                    archived: false,
+                };
+                dispatch(editNoteAction(editedNote, editingId));
+            } else {
+                const newNote: NoteType = {
+                    id: uuidv4(),
+                    name: formData.name,
+                    created: new Date().toLocaleDateString(),
+                    category: formData.category,
+                    content: formData.content,
+                    dates: extractDatesFromContent(formData.content),
+                    archived: false,
+                };
+                dispatch(addNoteAction(newNote));
+            }
+            onClose();
+        } else {
+            console.log('Name and content cannot be empty');
+            setIsNameEmpty(!name.trim());
+            setIsContentEmpty(!content.trim());
+        }
+    };
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setIsNameEmpty(false);
+            setIsContentEmpty(false);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [isNameEmpty, isContentEmpty]);
+
+    const formChangeHandler = (
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >
+    ) => {
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    };
+
     return (
         <div className="modal">
             <div className="modal-content">
@@ -102,6 +118,7 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
                         name="name"
                         value={formData.name}
                         onChange={formChangeHandler}
+                        className={isNameEmpty ? 'error' : ''}
                         required
                     />
                     <label htmlFor="note-category">Category:</label>
@@ -121,6 +138,7 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
                         name="content"
                         value={formData.content}
                         onChange={formChangeHandler}
+                        className={isContentEmpty ? 'error' : ''}
                         required
                     />
                     <button
