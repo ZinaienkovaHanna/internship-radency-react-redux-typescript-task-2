@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { addNoteAction } from '../../store/action-creators/noteActions';
-import { NoteType, FormData, ModalProps } from '../../types/notesTypes';
+import {
+    addNoteAction,
+    editNoteAction,
+} from '../../store/action-creators/noteActions';
+import { NoteType, FormData, PropsNoteModal } from '../../types/notesTypes';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 import './NoteModal.css';
 
-const NoteModal: React.FC<ModalProps> = ({ onClose }) => {
+const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
     const dispatch = useDispatch();
+    const { notes } = useTypedSelector((state) => state.notes);
 
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -22,22 +27,34 @@ const NoteModal: React.FC<ModalProps> = ({ onClose }) => {
         return datesArray ? datesArray.join(', ') : '';
     }
 
-    const AddNoteHandler = (
+    const saveNoteHandler = (
         name: string,
         category: string,
         content: string
     ) => {
-        const newNote: NoteType = {
-            id: uuidv4(),
-            name: formData.name,
-            created: new Date().toLocaleDateString(),
-            category: formData.category,
-            content: formData.content,
-            dates: extractDatesFromContent(formData.content),
-            archived: false,
-        };
-
-        dispatch(addNoteAction(newNote));
+        if (editingId) {
+            const editedNote: NoteType = {
+                id: editingId,
+                name: formData.name,
+                created: new Date().toLocaleDateString(),
+                category: formData.category,
+                content: formData.content,
+                dates: extractDatesFromContent(formData.content),
+                archived: false,
+            };
+            dispatch(editNoteAction(editedNote, editingId));
+        } else {
+            const newNote: NoteType = {
+                id: uuidv4(),
+                name: formData.name,
+                created: new Date().toLocaleDateString(),
+                category: formData.category,
+                content: formData.content,
+                dates: extractDatesFromContent(formData.content),
+                archived: false,
+            };
+            dispatch(addNoteAction(newNote));
+        }
         onClose();
     };
 
@@ -52,6 +69,25 @@ const NoteModal: React.FC<ModalProps> = ({ onClose }) => {
             [name]: value,
         }));
     };
+
+    useEffect(() => {
+        if (editingId) {
+            const noteToEdit = notes.find((note) => note.id === editingId);
+            if (noteToEdit) {
+                setFormData({
+                    name: noteToEdit.name,
+                    category: noteToEdit.category,
+                    content: noteToEdit.content,
+                });
+            }
+        } else {
+            setFormData({
+                name: '',
+                category: 'Task',
+                content: '',
+            });
+        }
+    }, [editingId, notes]);
 
     return (
         <div className="modal">
@@ -90,7 +126,7 @@ const NoteModal: React.FC<ModalProps> = ({ onClose }) => {
                     <button
                         type="button"
                         onClick={() =>
-                            AddNoteHandler(
+                            saveNoteHandler(
                                 formData.name,
                                 formData.category,
                                 formData.content

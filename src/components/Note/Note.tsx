@@ -13,11 +13,11 @@ import {
     deleteNoteAction,
     toggleNoteAction,
 } from '../../store/action-creators/noteActions';
-import { NoteType } from '../../types/notesTypes';
+import { PropsNote } from '../../types/notesTypes';
 
 import './Note.css';
 
-const Note: React.FC<{ note: NoteType }> = ({ note }) => {
+const Note: React.FC<PropsNote> = ({ note, onOpen }) => {
     const dispatch = useDispatch();
 
     const deleteNoteHandler = (id: string) => {
@@ -44,7 +44,7 @@ const Note: React.FC<{ note: NoteType }> = ({ note }) => {
     };
 
     return (
-        <tr key={note.id} className={note.archived ? 'isArchived' : ''}>
+        <tr className={note.archived ? 'isArchived' : ''}>
             <td>
                 <div className="circle-icon">
                     {getIconByCategory(note.category)}
@@ -56,7 +56,10 @@ const Note: React.FC<{ note: NoteType }> = ({ note }) => {
             <td>{note.content}</td>
             <td>{note.dates.toLocaleString()}</td>
             <td>
-                <BsPencil className="edit-icon" />
+                <BsPencil
+                    className="edit-icon"
+                    onClick={() => onOpen(note.id)}
+                />
                 <FaArchive
                     className="archive-icon"
                     onClick={() => toggleNoteHandler(note.id, note.archived)}

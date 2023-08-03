@@ -23,3 +23,11 @@ export const deleteNoteAction = (id: string) => {
         payload: id,
     };
 };
+
+export const editNoteAction = (note: NoteType, id: string) => {
+    return {
+        type: NoteActionTypes.EDIT_NOTE,
+        payload: note,
+        id,
+    };
+};

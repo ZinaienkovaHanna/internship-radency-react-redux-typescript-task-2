@@ -6,9 +6,18 @@ import './App.css';
 
 const App: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [noteIdForEditing, setNoteIdForEditing] = useState<string | null>(
+        null
+    );
 
-    const openModal = () => {
+    const openModalForCreate = () => {
         setIsModalOpen(true);
+        setNoteIdForEditing(null);
+    };
+
+    const openModalForEdit = (id: string) => {
+        setIsModalOpen(true);
+        setNoteIdForEditing(id);
     };
 
     const closeModal = () => {
@@ -17,9 +26,11 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <NoteList />
-            <button onClick={openModal}>Create Note</button>
-            {isModalOpen && <NoteModal onClose={closeModal} />}
+            <NoteList onOpen={openModalForEdit} />
+            <button onClick={openModalForCreate}>Create Note</button>
+            {isModalOpen && (
+                <NoteModal onClose={closeModal} editingId={noteIdForEditing} />
+            )}
         </div>
     );
 };

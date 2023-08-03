@@ -2,12 +2,12 @@ import React from 'react';
 import { FaArchive, FaTrashAlt } from 'react-icons/fa';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import Note from '../Note/Note';
-import { NoteType } from '../../types/notesTypes';
+import { NoteType, PropsNoteList } from '../../types/notesTypes';
 
-const NoteList: React.FC = () => {
+import './NoteList.css';
+
+const NoteList: React.FC<PropsNoteList> = ({ onOpen }) => {
     const { notes } = useTypedSelector((state) => state.notes);
-
-    console.log(notes);
 
     return (
         <table>
@@ -20,14 +20,14 @@ const NoteList: React.FC = () => {
                     <th>Content</th>
                     <th>Dates</th>
                     <th>
-                        <FaArchive />
-                        <FaTrashAlt />
+                        <FaArchive className="header-icon" />
+                        <FaTrashAlt className="header-icon" />
                     </th>
                 </tr>
             </thead>
             <tbody>
                 {notes.map((note: NoteType) => (
-                    <Note key={note.id} note={note} />
+                    <Note key={note.id} note={note} onOpen={onOpen} />
                 ))}
             </tbody>
         </table>

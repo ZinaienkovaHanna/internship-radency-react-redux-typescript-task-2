@@ -20,6 +20,7 @@ export enum NoteActionTypes {
     ADD_NOTE = 'ADD_NOTE',
     TOGGLE_NOTE = 'TOGGLE_NOTE',
     DELETE_NOTE = 'DELETE_NOTE',
+    EDIT_NOTE = 'EDIT_NOTE',
 }
 
 interface AddNoteAction {
@@ -38,7 +39,17 @@ interface DeleteNoteAction {
     payload: string;
 }
 
-export type NoteAction = AddNoteAction | ToggleNoteAction | DeleteNoteAction;
+interface EditNoteAction {
+    type: NoteActionTypes.EDIT_NOTE;
+    id: string;
+    payload: NoteType[];
+}
+
+export type NoteAction =
+    | AddNoteAction
+    | ToggleNoteAction
+    | DeleteNoteAction
+    | EditNoteAction;
 
 export interface FormData {
     name: string;
@@ -46,6 +57,16 @@ export interface FormData {
     content: string;
 }
 
-export interface ModalProps {
+export interface PropsNoteModal {
     onClose: () => void;
+    editingId: string | null;
+}
+
+export interface PropsNoteList {
+    onOpen: (id: string) => void;
+}
+
+export interface PropsNote {
+    note: NoteType;
+    onOpen: (id: string) => void;
 }

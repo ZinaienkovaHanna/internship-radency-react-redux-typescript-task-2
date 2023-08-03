@@ -31,6 +31,13 @@ const notesReducer = (state = initialState, action: NoteAction) => {
                 ...state,
                 notes: state.notes.filter((note) => note.id !== action.payload),
             };
+        case NoteActionTypes.EDIT_NOTE:
+            return {
+                ...state,
+                notes: state.notes.map((note) =>
+                    note.id === action.id ? action.payload : note
+                ),
+            };
         default:
             return state;
     }
