@@ -70,3 +70,5 @@ const notes: NoteType[] = [
 ];
 
 export default notes;
+
+export const categories = ['Task', 'Idea', 'Random Thought', 'Quote'];

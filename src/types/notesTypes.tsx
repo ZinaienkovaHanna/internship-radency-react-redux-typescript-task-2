@@ -64,6 +64,7 @@ export interface PropsNoteModal {
 
 export interface PropsNoteList {
     onOpen: (id: string) => void;
+    showArchived: boolean;
 }
 
 export interface PropsNote {
@@ -73,4 +74,17 @@ export interface PropsNote {
 
 export interface PropsNoteManagementButtons {
     onOpen: () => void;
+    showArchived: boolean;
+    setShowArchived: (archived: boolean) => void;
+}
+
+// export interface CategoryType {
+//     category: string;
+//     active: number;
+//     archived: number;
+// }
+
+export interface PropsSummaryCategory {
+    category: string;
+    data: { active: number; archived: number };
 }

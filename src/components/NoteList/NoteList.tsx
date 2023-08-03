@@ -6,8 +6,12 @@ import { NoteType, PropsNoteList } from '../../types/notesTypes';
 
 import './NoteList.css';
 
-const NoteList: React.FC<PropsNoteList> = ({ onOpen }) => {
+const NoteList: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
     const { notes } = useTypedSelector((state) => state.notes);
+
+    const filteredNotes = showArchived
+        ? notes.filter((note) => note.archived)
+        : notes.filter((note) => !note.archived);
 
     return (
         <table>
@@ -26,7 +30,7 @@ const NoteList: React.FC<PropsNoteList> = ({ onOpen }) => {
                 </tr>
             </thead>
             <tbody>
-                {notes.map((note: NoteType) => (
+                {filteredNotes.map((note: NoteType) => (
                     <Note key={note.id} note={note} onOpen={onOpen} />
                 ))}
             </tbody>

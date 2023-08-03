@@ -3,6 +3,7 @@ import { useState } from 'react';
 import NoteList from './components/NoteList/NoteList';
 import NoteModal from './components/NoteModal/NoteModal';
 import NoteManagementButtons from './components/NoteManagementButtons/NoteManagementButtons';
+import SummaryTable from './components/SummaryTable/SummaryTable';
 import './App.css';
 
 const App: React.FC = () => {
@@ -10,6 +11,7 @@ const App: React.FC = () => {
     const [noteIdForEditing, setNoteIdForEditing] = useState<string | null>(
         null
     );
+    const [showArchived, setShowArchived] = useState(false);
 
     const openModalForCreate = () => {
         setIsModalOpen(true);
@@ -27,12 +29,16 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <NoteList onOpen={openModalForEdit} />
-            <NoteManagementButtons onOpen={openModalForCreate} />
-            {/* <button onClick={openModalForCreate}>Create Note</button> */}
+            <NoteList onOpen={openModalForEdit} showArchived={showArchived} />
+            <NoteManagementButtons
+                onOpen={openModalForCreate}
+                showArchived={showArchived}
+                setShowArchived={setShowArchived}
+            />
             {isModalOpen && (
                 <NoteModal onClose={closeModal} editingId={noteIdForEditing} />
             )}
+            <SummaryTable />
         </div>
     );
 };
