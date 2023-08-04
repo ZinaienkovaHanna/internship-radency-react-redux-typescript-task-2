@@ -78,7 +78,21 @@ export interface PropsNoteManagementButtons {
     setShowArchived: (archived: boolean) => void;
 }
 
-export interface PropsSummaryCategory {
+export interface PropsSummaryTableRow {
     category: string;
     data: { active: number; archived: number };
 }
+
+type TableHeader = {
+    label: string;
+    key: string;
+};
+
+type TableRow = {
+    [key: string]: any;
+};
+
+export type PropsTable = {
+    headers: TableHeader[];
+    rows: TableRow[];
+};

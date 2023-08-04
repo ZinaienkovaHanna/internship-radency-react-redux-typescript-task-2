@@ -1,9 +1,9 @@
-import React from 'react';
-import { useState } from 'react';
-import NoteList from './components/NoteList/NoteList';
-import NoteModal from './components/NoteModal/NoteModal';
-import NoteManagementButtons from './components/NoteManagementButtons/NoteManagementButtons';
-import SummaryTable from './components/SummaryTable/SummaryTable';
+import React, { useState } from 'react';
+import NoteListTable from './components/Notes/NoteListTable';
+import NoteManagementButtons from './components/Notes/NoteManagementButtons';
+import NoteModal from './components/Notes/NoteModal';
+import SummaryTable from './components/Summary/SummaryTable';
+
 import './App.css';
 
 const App: React.FC = () => {
@@ -29,7 +29,10 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <NoteList onOpen={openModalForEdit} showArchived={showArchived} />
+            <NoteListTable
+                onOpen={openModalForEdit}
+                showArchived={showArchived}
+            />
             <NoteManagementButtons
                 onOpen={openModalForCreate}
                 showArchived={showArchived}

@@ -9,9 +9,9 @@ import {
 import { PropsNote } from '../../types/notesTypes';
 import { getIconByCategory } from '../../utils/utils';
 
-import './Note.css';
+import './NoteTableRow.css';
 
-const Note: React.FC<PropsNote> = ({ note, onOpen }) => {
+const NoteTableRow: React.FC<PropsNote> = ({ note, onOpen }) => {
     const dispatch = useDispatch();
 
     const deleteNoteHandler = (id: string) => {
@@ -52,4 +52,4 @@ const Note: React.FC<PropsNote> = ({ note, onOpen }) => {
     );
 };
 
-export default Note;
+export default NoteTableRow;

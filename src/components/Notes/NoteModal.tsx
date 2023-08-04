@@ -5,8 +5,9 @@ import {
     addNoteAction,
     editNoteAction,
 } from '../../store/action-creators/noteActions';
-import { NoteType, FormData, PropsNoteModal } from '../../types/notesTypes';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { extractDatesFromContent } from '../../utils/utils';
+import { NoteType, FormData, PropsNoteModal } from '../../types/notesTypes';
 
 import './NoteModal.css';
 
@@ -20,13 +21,6 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
     });
     const [isNameEmpty, setIsNameEmpty] = useState<boolean>(false);
     const [isContentEmpty, setIsContentEmpty] = useState<boolean>(false);
-
-    function extractDatesFromContent(content: string) {
-        const regex =
-            /\b\d{1,2}\/\d{1,2}\/\d{4}\b|\b\d{2}\.\d{2}\.\d{4}\b|\b\w+ \d{1,2}, \d{4}\b/g;
-        const datesArray = content.match(regex);
-        return datesArray ? datesArray.join(', ') : '';
-    }
 
     useEffect(() => {
         if (editingId) {

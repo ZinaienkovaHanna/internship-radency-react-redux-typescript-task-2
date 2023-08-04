@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import SummaryCategory from '../SummaryRow/SummaryCategory';
+import SummaryTableRow from './SummaryTableRow';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { categories } from '../../data/notes';
-// import { CategoryType } from '../../types/notesTypes';
 
 import './SummaryTable.css';
 
@@ -53,7 +52,7 @@ const SummaryTable: React.FC = () => {
             </thead>
             <tbody>
                 {categories.map((category) => (
-                    <SummaryCategory
+                    <SummaryTableRow
                         key={category}
                         category={category}
                         data={summaryData[category]}

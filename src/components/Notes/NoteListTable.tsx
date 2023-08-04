@@ -1,12 +1,12 @@
 import React from 'react';
 import { FaArchive, FaTrashAlt } from 'react-icons/fa';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import Note from '../Note/Note';
+import NoteTableRow from './NoteTableRow';
 import { NoteType, PropsNoteList } from '../../types/notesTypes';
 
-import './NoteList.css';
+import './NoteListTable.css';
 
-const NoteList: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
+const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
     const { notes } = useTypedSelector((state) => state.notes);
 
     const filteredNotes = showArchived
@@ -31,11 +31,11 @@ const NoteList: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
             </thead>
             <tbody>
                 {filteredNotes.map((note: NoteType) => (
-                    <Note key={note.id} note={note} onOpen={onOpen} />
+                    <NoteTableRow key={note.id} note={note} onOpen={onOpen} />
                 ))}
             </tbody>
         </table>
     );
 };
 
-export default NoteList;
+export default NoteListTable;

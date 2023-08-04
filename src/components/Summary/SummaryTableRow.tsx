@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { PropsSummaryCategory } from '../../types/notesTypes';
+import { PropsSummaryTableRow } from '../../types/notesTypes';
 import { getIconByCategory } from '../../utils/utils';
 
-import './SummaryCategory.css';
+import './SummaryTableRow.css';
 
-const SummaryCategory: React.FC<PropsSummaryCategory> = ({
+const SummaryCategory: React.FC<PropsSummaryTableRow> = ({
     category,
     data,
 }) => {

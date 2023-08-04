@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropsNoteManagementButtons } from '../../types/notesTypes';
+
 import './NoteManagementButtons.css';
 
 const NoteManagementButtons: React.FC<PropsNoteManagementButtons> = ({
