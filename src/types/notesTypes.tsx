@@ -78,12 +78,6 @@ export interface PropsNoteManagementButtons {
     setShowArchived: (archived: boolean) => void;
 }
 
-// export interface CategoryType {
-//     category: string;
-//     active: number;
-//     archived: number;
-// }
-
 export interface PropsSummaryCategory {
     category: string;
     data: { active: number; archived: number };
