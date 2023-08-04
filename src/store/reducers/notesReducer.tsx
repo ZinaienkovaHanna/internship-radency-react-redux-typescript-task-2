@@ -1,4 +1,3 @@
-// src/reducers/notesReducer.ts
 import notesData from '../../data/notes';
 import {
     NoteStateType,

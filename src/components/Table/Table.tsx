@@ -1,9 +1,16 @@
 import React from 'react';
 import { PropsTable } from '../../types/notesTypes';
 
-const Table: React.FC<PropsTable> = ({ headers, rows }) => {
+import './Table.css';
+
+const Table: React.FC<PropsTable> = ({
+    headers,
+    rows,
+    rowClassName,
+    tableClassName,
+}) => {
     return (
-        <table>
+        <table className={tableClassName}>
             <thead>
                 <tr>
                     {headers.map((header) => (
@@ -12,8 +19,8 @@ const Table: React.FC<PropsTable> = ({ headers, rows }) => {
                 </tr>
             </thead>
             <tbody>
-                {rows.map((row, index) => (
-                    <tr key={index}>
+                {rows.map((row) => (
+                    <tr key={row.id} className={rowClassName}>
                         {headers.map((header) => (
                             <td key={header.key}>{row[header.key]}</td>
                         ))}

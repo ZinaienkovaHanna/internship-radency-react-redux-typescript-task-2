@@ -1,4 +1,3 @@
-// src/reducers/rootReducer.ts
 import { combineReducers } from 'redux';
 
 import notesReducer from './notesReducer';

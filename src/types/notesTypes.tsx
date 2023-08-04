@@ -1,7 +1,3 @@
-export declare const styles: {
-    modal: string;
-};
-
 export interface NoteType {
     id: string;
     name: string;
@@ -67,32 +63,24 @@ export interface PropsNoteList {
     showArchived: boolean;
 }
 
-export interface PropsNote {
-    note: NoteType;
-    onOpen: (id: string) => void;
-}
-
 export interface PropsNoteManagementButtons {
     onOpen: () => void;
     showArchived: boolean;
     setShowArchived: (archived: boolean) => void;
 }
 
-export interface PropsSummaryTableRow {
-    category: string;
-    data: { active: number; archived: number };
-}
-
-type TableHeader = {
-    label: string;
+export type TableHeader = {
+    label: any;
     key: string;
 };
 
-type TableRow = {
+export type TableRow = {
     [key: string]: any;
 };
 
 export type PropsTable = {
     headers: TableHeader[];
     rows: TableRow[];
+    rowClassName?: string;
+    tableClassName?: string;
 };

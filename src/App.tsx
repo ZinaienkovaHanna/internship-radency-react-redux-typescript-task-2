@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NoteListTable from './components/Notes/NoteListTable';
 import NoteManagementButtons from './components/Notes/NoteManagementButtons';
 import NoteModal from './components/Notes/NoteModal';
-import SummaryTable from './components/Summary/SummaryTable';
+import SummaryTable from './components/SummaryTable/SummaryTable';
 
 import './App.css';
 

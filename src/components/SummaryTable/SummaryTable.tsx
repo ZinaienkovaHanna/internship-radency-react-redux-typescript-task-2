@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import SummaryTableRow from './SummaryTableRow';
+import Table from '../Table/Table';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { categories } from '../../data/notes';
+import { getIconByCategory } from '../../utils/utils';
 
 import './SummaryTable.css';
 
@@ -40,26 +41,22 @@ const SummaryTable: React.FC = () => {
         setSummaryData(counts);
     }, [notes]);
 
+    const headers = [
+        { label: '', key: 'icon' },
+        { label: 'Note Category', key: 'category' },
+        { label: 'Active', key: 'active' },
+        { label: 'Archived', key: 'archived' },
+    ];
+
+    const rows = categories.map((category) => ({
+        id: category,
+        icon: <div className="circle-icon">{getIconByCategory(category)}</div>,
+        category,
+        ...summaryData[category],
+    }));
+
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Note Category</th>
-                    <th>Active</th>
-                    <th>Archived</th>
-                </tr>
-            </thead>
-            <tbody>
-                {categories.map((category) => (
-                    <SummaryTableRow
-                        key={category}
-                        category={category}
-                        data={summaryData[category]}
-                    />
-                ))}
-            </tbody>
-        </table>
+        <Table headers={headers} rows={rows} tableClassName="summary-table" />
     );
 };
 
