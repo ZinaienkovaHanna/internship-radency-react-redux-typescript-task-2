@@ -9,8 +9,6 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { extractDatesFromContent } from '../../utils/utils';
 import { NoteType, FormData, PropsNoteModal } from '../../types/notesTypes';
 
-import './NoteModal.css';
-
 const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
     const dispatch = useDispatch();
     const { notes } = useTypedSelector((state) => state.notes);
@@ -100,39 +98,64 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>
+        <div className="fixed top-0 left-0 bg-bg-modal w-full h-full ">
+            <div className="absolute min-w-[600px] bg-bg-note top-1/2 left-1/2 p-16 transform -translate-x-1/2 -translate-y-1/2">
+                <span
+                    className="absolute top-3 right-6 text-3xl cursor-pointer hover:scale-125"
+                    onClick={onClose}
+                >
                     &times;
                 </span>
-                <h2>Create Note</h2>
-                <form>
-                    <label htmlFor="note-name">Name:</label>
+                <h2 className="text-text-note text-xl font-bold">
+                    Create Note
+                </h2>
+                <form className="flex flex-col">
+                    <label
+                        htmlFor="note-name"
+                        className="text-text-note text-xl font-normal pt-4"
+                    >
+                        Name:
+                    </label>
                     <input
                         name="name"
                         value={formData.name}
                         onChange={formChangeHandler}
-                        className={isNameEmpty ? 'error' : ''}
+                        className={`h-10 text-text-note text-base font-normal px-2 ${
+                            isNameEmpty ? 'border-2 border-rose-600' : ''
+                        }`}
                         required
                     />
-                    <label htmlFor="note-category">Category:</label>
+                    <label
+                        htmlFor="note-category"
+                        className="text-text-note text-xl font-normal pt-4"
+                    >
+                        Category:
+                    </label>
                     <select
                         name="category"
                         value={formData.category}
                         onChange={formChangeHandler}
                         required
+                        className="text-text-note text-base font-normal p-2 h-10"
                     >
                         <option value="Task">Task</option>
                         <option value="Random Thought">Random Thought</option>
                         <option value="Idea">Idea</option>
                         <option value="Quote">Quote</option>
                     </select>
-                    <label htmlFor="note-content">Content:</label>
+                    <label
+                        htmlFor="note-content"
+                        className="text-text-note text-xl font-normal pt-4"
+                    >
+                        Content:
+                    </label>
                     <textarea
                         name="content"
                         value={formData.content}
                         onChange={formChangeHandler}
-                        className={isContentEmpty ? 'error' : ''}
+                        className={`text-text-note text-base font-normal p-2 h-15 ${
+                            isContentEmpty ? 'border-2 border-rose-600' : ''
+                        }`}
                         required
                     />
                     <button
@@ -144,6 +167,7 @@ const NoteModal: React.FC<PropsNoteModal> = ({ onClose, editingId }) => {
                                 formData.content
                             )
                         }
+                        className="text-text-header bg-bg-header border-none px-8 py-3  cursor-pointer mt-3 hover:text-button-hover"
                     >
                         Save Note
                     </button>

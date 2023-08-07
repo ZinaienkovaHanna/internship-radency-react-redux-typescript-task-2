@@ -1,8 +1,6 @@
 import React from 'react';
 import { PropsNoteManagementButtons } from '../../types/notesTypes';
 
-import './NoteManagementButtons.css';
-
 const NoteManagementButtons: React.FC<PropsNoteManagementButtons> = ({
     onOpen,
     showArchived,
@@ -13,20 +11,29 @@ const NoteManagementButtons: React.FC<PropsNoteManagementButtons> = ({
     };
 
     return (
-        <div className="btns-group">
+        <div className="flex justify-center gap-5 py-5">
             <button
-                className={showArchived ? '' : 'active'}
+                className={`bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover ${
+                    showArchived ? 'text-text-header' : 'text-button-hover'
+                }`}
                 onClick={() => filterHandler(false)}
             >
                 Active
             </button>
             <button
-                className={showArchived ? 'active' : ''}
+                className={`bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover ${
+                    showArchived ? 'text-button-hover' : 'text-text-header'
+                }`}
                 onClick={() => filterHandler(true)}
             >
                 Archive
             </button>
-            <button onClick={onOpen}>Create Note</button>
+            <button
+                onClick={onOpen}
+                className="text-text-header bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover"
+            >
+                Create Note
+            </button>
         </div>
     );
 };

@@ -5,8 +5,6 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { categories } from '../../data/notes';
 import { getIconByCategory } from '../../utils/utils';
 
-import './SummaryTable.css';
-
 const SummaryTable: React.FC = () => {
     const { notes } = useTypedSelector((state) => state.notes);
     const [summaryData, setSummaryData] = useState<{
@@ -42,7 +40,6 @@ const SummaryTable: React.FC = () => {
     }, [notes]);
 
     const headers = [
-        { label: '', key: 'icon' },
         { label: 'Note Category', key: 'category' },
         { label: 'Active', key: 'active' },
         { label: 'Archived', key: 'archived' },
@@ -50,14 +47,18 @@ const SummaryTable: React.FC = () => {
 
     const rows = categories.map((category) => ({
         id: category,
-        icon: <div className="circle-icon">{getIconByCategory(category)}</div>,
-        category,
+        category: (
+            <div className="flex items-center">
+                <div className="flex items-center justify-center bg-text-header w-8 h-8 rounded-full">
+                    {getIconByCategory(category)}
+                </div>
+                <div className="ml-4">{category}</div>
+            </div>
+        ),
         ...summaryData[category],
     }));
 
-    return (
-        <Table headers={headers} rows={rows} tableClassName="summary-table" />
-    );
+    return <Table headers={headers} rows={rows} />;
 };
 
 export default SummaryTable;
