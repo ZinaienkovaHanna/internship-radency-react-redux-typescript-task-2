@@ -11,8 +11,6 @@ import {
 } from '../../store/action-creators/noteActions';
 import { getIconByCategory } from '../../utils/utils';
 
-import './NoteListTable.css';
-
 const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
     const { notes } = useTypedSelector((state) => state.notes);
     const dispatch = useDispatch();
@@ -30,7 +28,6 @@ const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
         : notes.filter((note) => !note.archived);
 
     const headers = [
-        { label: '', key: 'icon' },
         { label: 'Name', key: 'name' },
         { label: 'Created', key: 'created' },
         { label: 'Category', key: 'category' },
@@ -38,9 +35,9 @@ const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
         { label: 'Dates', key: 'dates' },
         {
             label: (
-                <div>
-                    <FaArchive className="header-icon" />
-                    <FaTrashAlt className="header-icon" />
+                <div className="flex justify-center">
+                    <FaArchive className="pl-2" />
+                    <FaTrashAlt className="pl-2" />
                 </div>
             ),
             key: 'actions',
@@ -49,31 +46,33 @@ const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
 
     const rows = filteredNotes.map((note: NoteType) => ({
         id: note.id,
-        icon: (
-            <div className="circle-icon">
-                {getIconByCategory(note.category)}
+        name: (
+            <div className="flex items-center">
+                <div className="flex items-center justify-center bg-text-header w-8 h-8 rounded-full">
+                    {getIconByCategory(note.category)}
+                </div>
+                <div className="ml-4">{note.name}</div>
             </div>
         ),
-        name: note.name,
         created: note.created.toLocaleString(),
         category: note.category,
         content: note.content,
         dates: note.dates.toLocaleString(),
         actions: (
-            <>
+            <div className="flex justify-center">
                 <BsPencil
-                    className="edit-icon"
+                    className="pl-2 w-8 cursor-pointer hover:scale-125"
                     onClick={() => onOpen(note.id)}
                 />
                 <FaArchive
-                    className="archive-icon"
+                    className="pl-2 w-8 cursor-pointer hover:scale-125"
                     onClick={() => toggleNoteHandler(note.id, note.archived)}
                 />
                 <FaTrashAlt
-                    className="delete-icon"
+                    className="pl-2 w-8 cursor-pointer hover:scale-125"
                     onClick={() => deleteNoteHandler(note.id)}
                 />
-            </>
+            </div>
         ),
     }));
 
@@ -81,7 +80,7 @@ const NoteListTable: React.FC<PropsNoteList> = ({ onOpen, showArchived }) => {
         <Table
             headers={headers}
             rows={rows}
-            rowClassName={showArchived ? 'isArchived' : ''}
+            rowClassName={showArchived ? 'line-through' : ''}
         />
     );
 };

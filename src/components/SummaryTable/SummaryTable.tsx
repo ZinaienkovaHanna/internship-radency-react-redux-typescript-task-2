@@ -4,14 +4,11 @@ import Table from '../Table/Table';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { categories } from '../../data/notes';
 import { getIconByCategory } from '../../utils/utils';
-
-import './SummaryTable.css';
+import { SummaryData, CategoryCounts } from '../../types/notesTypes';
 
 const SummaryTable: React.FC = () => {
     const { notes } = useTypedSelector((state) => state.notes);
-    const [summaryData, setSummaryData] = useState<{
-        [key: string]: { active: number; archived: number };
-    }>({
+    const [summaryData, setSummaryData] = useState<SummaryData>({
         Task: { active: 0, archived: 0 },
         Idea: { active: 0, archived: 0 },
         'Random Thought': { active: 0, archived: 0 },
@@ -19,16 +16,12 @@ const SummaryTable: React.FC = () => {
     });
 
     useEffect(() => {
-        const counts: {
-            [key: string]: {
-                active: number;
-                archived: number;
-            };
-        } = {};
-
-        categories.forEach((category) => {
-            counts[category] = { active: 0, archived: 0 };
-        });
+        const counts: Record<string, CategoryCounts> = categories.reduce<
+            Record<string, CategoryCounts>
+        >((acc, category) => {
+            acc[category] = { active: 0, archived: 0 };
+            return acc;
+        }, {});
 
         notes.forEach((note) => {
             if (note.category in counts) {
@@ -42,7 +35,6 @@ const SummaryTable: React.FC = () => {
     }, [notes]);
 
     const headers = [
-        { label: '', key: 'icon' },
         { label: 'Note Category', key: 'category' },
         { label: 'Active', key: 'active' },
         { label: 'Archived', key: 'archived' },
@@ -50,14 +42,18 @@ const SummaryTable: React.FC = () => {
 
     const rows = categories.map((category) => ({
         id: category,
-        icon: <div className="circle-icon">{getIconByCategory(category)}</div>,
-        category,
+        category: (
+            <div className="flex items-center">
+                <div className="flex items-center justify-center bg-text-header w-8 h-8 rounded-full">
+                    {getIconByCategory(category)}
+                </div>
+                <div className="ml-4">{category}</div>
+            </div>
+        ),
         ...summaryData[category],
     }));
 
-    return (
-        <Table headers={headers} rows={rows} tableClassName="summary-table" />
-    );
+    return <Table headers={headers} rows={rows} />;
 };
 
 export default SummaryTable;

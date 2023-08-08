@@ -84,3 +84,12 @@ export type PropsTable = {
     rowClassName?: string;
     tableClassName?: string;
 };
+
+export interface SummaryData {
+    [key: string]: { active: number; archived: number };
+}
+
+export type CategoryCounts = {
+    active: number;
+    archived: number;
+};

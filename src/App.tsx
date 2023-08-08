@@ -4,8 +4,6 @@ import NoteManagementButtons from './components/Notes/NoteManagementButtons';
 import NoteModal from './components/Notes/NoteModal';
 import SummaryTable from './components/SummaryTable/SummaryTable';
 
-import './App.css';
-
 const App: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [noteIdForEditing, setNoteIdForEditing] = useState<string | null>(
@@ -28,7 +26,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="App">
+        <div className="font-montserrat m-0 p-0 box-border max-w-7xl py-10 mx-auto my-auto">
             <NoteListTable
                 onOpen={openModalForEdit}
                 showArchived={showArchived}
