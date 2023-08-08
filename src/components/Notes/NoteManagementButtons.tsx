@@ -6,31 +6,31 @@ const NoteManagementButtons: React.FC<PropsNoteManagementButtons> = ({
     showArchived,
     setShowArchived,
 }) => {
-    const filterHandler = (archived: boolean) => {
+    const toggleShowArchivedHandler = (archived: boolean) => {
         setShowArchived(archived);
     };
 
     return (
-        <div className="flex justify-center gap-5 py-5">
+        <div className="flex justify-center w-10/12 mx-auto bg-bg-note mb-10">
             <button
-                className={`bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover ${
-                    showArchived ? 'text-text-header' : 'text-button-hover'
+                className={`text-2xl font-bold border-none px-8 py-4  cursor-pointer hover:text-button-hover ${
+                    showArchived ? 'text-text-note' : 'text-button-hover'
                 }`}
-                onClick={() => filterHandler(false)}
+                onClick={() => toggleShowArchivedHandler(false)}
             >
                 Active
             </button>
             <button
-                className={`bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover ${
-                    showArchived ? 'text-button-hover' : 'text-text-header'
+                className={`text-2xl font-bold border-none px-8 py-4  cursor-pointer hover:text-button-hover ${
+                    showArchived ? 'text-button-hover' : 'text-text-note'
                 }`}
-                onClick={() => filterHandler(true)}
+                onClick={() => toggleShowArchivedHandler(true)}
             >
                 Archive
             </button>
             <button
                 onClick={onOpen}
-                className="text-text-header bg-bg-header border-none px-8 py-3  cursor-pointer hover:text-button-hover"
+                className="text-2xl font-bold text-text-note  border-none px-8 py-4  cursor-pointer hover:text-button-hover"
             >
                 Create Note
             </button>
