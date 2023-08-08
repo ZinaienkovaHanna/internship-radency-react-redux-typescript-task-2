@@ -1,12 +1,9 @@
+//src/Table.tsx
+
 import React from 'react';
 import { PropsTable } from '../../types/notesTypes';
 
-const Table: React.FC<PropsTable> = ({
-    headers,
-    rows,
-    rowClassName,
-    tableClassName,
-}) => {
+const Table: React.FC<PropsTable> = ({ headers, rows, rowClassName }) => {
     return (
         <table className="mx-auto border-separate border-spacing-x-0 border-spacing-y-2 w-10/12">
             <thead>

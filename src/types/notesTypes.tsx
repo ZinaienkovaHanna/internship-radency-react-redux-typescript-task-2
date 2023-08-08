@@ -82,7 +82,6 @@ export type PropsTable = {
     headers: TableHeader[];
     rows: TableRow[];
     rowClassName?: string;
-    tableClassName?: string;
 };
 
 export interface SummaryData {
