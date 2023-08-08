@@ -4,12 +4,11 @@ import Table from '../Table/Table';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { categories } from '../../data/notes';
 import { getIconByCategory } from '../../utils/utils';
+import { SummaryData, CategoryCounts } from '../../types/notesTypes';
 
 const SummaryTable: React.FC = () => {
     const { notes } = useTypedSelector((state) => state.notes);
-    const [summaryData, setSummaryData] = useState<{
-        [key: string]: { active: number; archived: number };
-    }>({
+    const [summaryData, setSummaryData] = useState<SummaryData>({
         Task: { active: 0, archived: 0 },
         Idea: { active: 0, archived: 0 },
         'Random Thought': { active: 0, archived: 0 },
@@ -17,16 +16,12 @@ const SummaryTable: React.FC = () => {
     });
 
     useEffect(() => {
-        const counts: {
-            [key: string]: {
-                active: number;
-                archived: number;
-            };
-        } = {};
-
-        categories.forEach((category) => {
-            counts[category] = { active: 0, archived: 0 };
-        });
+        const counts: Record<string, CategoryCounts> = categories.reduce<
+            Record<string, CategoryCounts>
+        >((acc, category) => {
+            acc[category] = { active: 0, archived: 0 };
+            return acc;
+        }, {});
 
         notes.forEach((note) => {
             if (note.category in counts) {
